@@ -30,3 +30,5 @@
 - django 설치
 - .flake8 파일 생성
 
+- github action create(.github/workflows/checks.yml)
+- git add / commit / push
