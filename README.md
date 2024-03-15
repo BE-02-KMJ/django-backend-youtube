@@ -46,4 +46,5 @@
 
 여기서 부터 발생한 미친 오류 발생...
 "django.db.utils.OperationalError: connection to server on socket "/var/run/postgresql/.s.PGSQL.5432" failed: No such file or directory"
-내가 이거 깨부순다,,,, ㅂㄷㅂㄷ
+→ 파일 다 삭제하고 docker desktop에서도 Containers, Images, Builds 다 삭제한 후 다시 처음부터 다시 시작하니 잘 됐다.
+역시 해결하지 못할 땐 다 삭제하고 처음부터! ㅎㅎㅎ
