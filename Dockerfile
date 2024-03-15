@@ -16,25 +16,30 @@ COPY ./app /app
 WORKDIR /app
 EXPOSE 8000
 
-ARG DEV=False
+ARG DEV=false
 
 # Linux → venv
 # && \ : enter
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
+    # postgresql 설치
+    apk add --update --no-cache postgresql-client && \
+    apk add --update --no-cache --virtual .tmp-build-deps \
+        build-base postgresql-dev musl-dev && \
     /py/bin/pip install -r /tmp/requirements.txt && \
     # 개발 모드일 시 dev에서 실행
-    if [ $DEV = "true"]; \  
+    if [ $DEV = "true" ]; \  
         then /py/bin/pip install -r /tmp/requirements.dev.txt ; \
     fi && \
     # image 크기를 줄이기 위해 임의로 만든 폴더 삭제.
     rm -rf /tmp && \
+    apk del .tmp-build-deps && \
     # 새로운 user 만들기
     adduser \
         --disabled-password \
         --no-create-home \
         django-user
 
-ENV PATH="/scripts:/py/bin:$PATH"
+ENV PATH="/py/bin:$PATH"
 
 USER django-user

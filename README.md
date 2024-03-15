@@ -1,7 +1,7 @@
 # Youtube REST API project
 
 ## 1일차
-### Project Setting
+### - Project Setting
 #### 1. Github
 - repository 생성
 - 로컬에 있는 내 컴퓨터 폴더와 github Remote 공간 연결
@@ -32,3 +32,18 @@
 
 - github action create(.github/workflows/checks.yml)
 - git add / commit / push
+
+## 2일차
+### - PostgreSQL
+#### 1. docker postgresql image pull
+- docker-compose.yml 파일 수정
+- Dockerfile 파일 수정
+- requirements.txt 파일 수정
+- app/settings.py 파일 수정
+
+- 사용자 정의 django 명령어 만들기 
+  - core 폴더 생성.
+
+여기서 부터 발생한 미친 오류 발생...
+"django.db.utils.OperationalError: connection to server on socket "/var/run/postgresql/.s.PGSQL.5432" failed: No such file or directory"
+내가 이거 깨부순다,,,, ㅂㄷㅂㄷ
