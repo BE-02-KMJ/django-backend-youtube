@@ -10,3 +10,20 @@ services:
     volumes:
       - ./app:/app
     command: sh -c "python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=youtube
+      - DB_USER=mingming96
+      - DB_PASS=alswjd123
+    depends_on:
+      - db
+
+  # app: 과 같은 뎁스로
+  db:
+    image: postgres:16-alpine
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=youtube
+      - POSTGRES_USER=mingming96
+      - POSTGRES_PASSWORD=alswjd123
