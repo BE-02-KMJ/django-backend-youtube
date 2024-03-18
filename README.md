@@ -48,3 +48,44 @@
 "django.db.utils.OperationalError: connection to server on socket "/var/run/postgresql/.s.PGSQL.5432" failed: No such file or directory"
 → 파일 다 삭제하고 docker desktop에서도 Containers, Images, Builds 다 삭제한 후 다시 처음부터 다시 시작하니 잘 됐다.
 역시 해결하지 못할 땐 다 삭제하고 처음부터! ㅎㅎㅎ
+
+## 3일차
+### - 모델(테이블) 구조
+#### (1) users : FK
+- email
+- nickname
+- password
+- is_business: personal, business
+
+#### (2) video
+- title
+- description
+- link
+- category
+- views_count
+- thumbnail
+- User: FK
+
+#### (3) Reaction
+- User: FK
+- Video: FK
+- reaction (like, dislike, cancel)
+
+#### (4) comments
+- User: FK
+- content
+
+#### (5) Subscription (채널 구독 관련)
+- User: FK → subscriber (나를 구독)
+- User: FK → subscribed_to (내가 구독)
+
+#### (6) Common
+- created_at
+- updated_at
+
+#### (+) Notifications
+- User: FK
+- content
+
+### - Table (Model)
+- users. videos, reactions, comments, subscriptions, common
