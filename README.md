@@ -87,5 +87,9 @@
 - User: FK
 - content
 
-### - Table (Model)
+### - Table (Model) Create
 - users. videos, reactions, comments, subscriptions, common
+
+### - DRF Setting
+- DjangoRestFramework
+- drf-spectacular
