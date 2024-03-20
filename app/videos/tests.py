@@ -44,7 +44,7 @@ class VideoAPITestCase(APITestCase):
     def test_video_list_post(self):
         url = reverse('video-list')
         data = {
-            'title': 'test video 2',
+            'title': 'test video2',
             'link': 'https://test.com',
             'category' : 'test category',
             'thumbnail' : 'http://test.com',
@@ -59,10 +59,33 @@ class VideoAPITestCase(APITestCase):
 
     # Video Detail 관련 API
     def test_video_detail_get(self):
-        pass
+        url = reverse('video-detail', kwargs={'pk':self.video.pk})
+        # url_ex) api/v1/video/1
+        res = self.client.get(url)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
 
     def test_video_detail_put(self):
-        pass
+        url = reverse('video-detail', kwargs={'pk':self.video.pk})
+        data = {
+            'title': 'updated video',
+            'link': 'https://test.com',
+            'category' : 'test category',
+            'thumbnail' : 'http://test.com',
+            'video_file' : SimpleUploadedFile('file.mp4', b'file_content', 'video/mp4'),
+            'user' : self.user.pk
+        }
 
-    def test_video_detail_patch(self):
-        pass
+        res = self.client.put(url, data)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.data['title'], 'updated video')
+
+    def test_video_detail_delete(self):
+        url = reverse('video-detail', kwargs={'pk':self.video.pk})
+
+        res = self.client.delete(url)
+        self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
+        
+        res = self.client.get(url)
+        self.assertEqual(res.status_code, status.HTTP_404_NOT_FOUND)

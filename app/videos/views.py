@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.exceptions import NotFound
 from .models import Video
 from .serializers import VideoSerializer
 
@@ -15,7 +16,7 @@ from .serializers import VideoSerializer
 # [PUT] - X
 # [DELETE] - X
 class VideoList(APIView):
-    def get(self):
+    def get(self, request):
         videos = Video.objects.all()
         # 직렬화 (Object → Json) : Serializer
         serializers = VideoSerializer(videos, many=True)
@@ -27,7 +28,7 @@ class VideoList(APIView):
         serializer = VideoSerializer(data=user_data)
 
         if serializer.is_valid():
-            video = serializer.save(user=request.data)   
+            serializer.save(user=request.user)   
             # serializer = VideoSerializer(video)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -38,12 +39,30 @@ class VideoList(APIView):
 # [POST] - X
 # [PUT] - 특정 비디오 업데이트
 # [DELETE] - 특정 비디오 삭제
-class VideoDetail():
-    def get():
-        pass
+class VideoDetail(APIView):
+    def get(self, request, pk):
+        try:
+            video = Video.objects.get(pk=pk)
+        except Video.DoesNotExist:
+            raise NotFound
+        
+        serializer = VideoSerializer(video)
 
-    def put():
-        pass
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def delete():
-        pass
+    def put(self, request, pk):
+        video_obj = Video.objects.get(pk=pk)    # DB에서 불러온 데이터
+        user_data = request.data    # user가 보낸 데이터
+        
+        serializer = VideoSerializer(video_obj, user_data)
+        
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request, pk):
+        video_obj = Video.objects.get(pk=pk)
+        video_obj.delete()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)

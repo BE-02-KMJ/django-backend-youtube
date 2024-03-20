@@ -4,7 +4,7 @@ from users.models import User
 
 # Create your models here.
 class Video(CommonModel):
-    title = models.CharField(max_length=30, required=True)
+    title = models.CharField(max_length=30)
     description = models.TextField(blank=True)
     link = models.URLField()
     category = models.CharField(max_length=20)
