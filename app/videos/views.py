@@ -19,9 +19,9 @@ class VideoList(APIView):
     def get(self, request):
         videos = Video.objects.all()
         # 직렬화 (Object → Json) : Serializer
-        serializers = VideoSerializer(videos, many=True)
+        serializer = VideoSerializer(videos, many=True)
 
-        return Response(serializers.data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
         user_data = request.data
