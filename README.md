@@ -93,3 +93,34 @@
 ### - DRF Setting
 - DjangoRestFramework
 - drf-spectacular
+
+아래 setting들을 하나하나할 때마다 app/settings에서 CUSTOM_USER_APPS에 추가해줘야한다.
+### - common setting
+- models.py
+
+### - Users setting
+- admin.py
+- models.py
+- serializers.py (new)
+- tests.py
+
+### - Videos setting
+- admin.py
+- models.py
+- serializers.py (new)
+- tests.py
+- urls.py (new)
+- views.py
+
+### - comments setting
+- admin.py
+- models.py
+- serializers.py (new)
+
+### - subscriptions setting
+- admin.py
+- models.py
+- serializers.py (new)
+- tests.py
+- urls.py (new)
+- views.py

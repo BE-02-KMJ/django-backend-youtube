@@ -10,4 +10,4 @@ class Comment(CommonModel):
     dislike = models.PositiveIntegerField(default=0)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name='comments')
+    video = models.ForeignKey(Video, on_delete=models.CASCADE)

@@ -3,8 +3,8 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
+from .serializers import VideoListSerializer, VideoDetailSerializer
 from .models import Video
-from .serializers import VideoSerializer
 
 # Create your views here.
 # Video와 관련된 REST API
@@ -19,13 +19,13 @@ class VideoList(APIView):
     def get(self, request):
         videos = Video.objects.all()
         # 직렬화 (Object → Json) : Serializer
-        serializer = VideoSerializer(videos, many=True)
+        serializer = VideoListSerializer(videos, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
         user_data = request.data
-        serializer = VideoSerializer(data=user_data)
+        serializer = VideoListSerializer(data=user_data)
 
         if serializer.is_valid():
             serializer.save(user=request.user)   
@@ -46,7 +46,7 @@ class VideoDetail(APIView):
         except Video.DoesNotExist:
             raise NotFound
         
-        serializer = VideoSerializer(video)
+        serializer = VideoDetailSerializer(video)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -54,7 +54,7 @@ class VideoDetail(APIView):
         video_obj = Video.objects.get(pk=pk)    # DB에서 불러온 데이터
         user_data = request.data    # user가 보낸 데이터
         
-        serializer = VideoSerializer(video_obj, user_data)
+        serializer = VideoDetailSerializer(video_obj, user_data)
         
         serializer.is_valid(raise_exception=True)
         serializer.save()
