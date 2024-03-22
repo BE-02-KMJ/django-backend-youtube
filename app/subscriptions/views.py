@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
-from .serializers import SubListSerializer, SubDetailSerializer
+from .serializers import SubSerializer
 from .models import Subscription
 
 # Create your views here.
@@ -11,9 +11,14 @@ from .models import Subscription
 # api/v1/sub
 # [POST] : 구독하기.
 class SubscriptionList(APIView):
+    # def get(self, request):
+    #     subs = Subscription.objects.filter(subscriber=request.user)
+    #     serializer = SubSerializer(subs, many=True)
+    #     return Response(serializer.data)
+    
     def post(self, request):
         user_data = request.data
-        serializer = SubListSerializer(data=user_data)
+        serializer = SubSerializer(data=user_data)
 
         serializer.is_valid(raise_exception=True)
         serializer.save(subscriber=request.user)
@@ -26,17 +31,13 @@ class SubscriptionList(APIView):
 # [DELETE] : 구독 취소
 class SubscriptionDetail(APIView):
     def get(self, request, pk):
-        try:
-            subscription = Subscription.objects.get(pk=pk)
-        except Subscription.DoesNotExist:
-            raise NotFound
-        
-        serializer = SubDetailSerializer(subscription)
+        subs = Subscription.objects.filter(subscribed_to=pk)                
+        serializer = SubSerializer(subs, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request, pk):
-        sub_obj = Subscription.objects.get(pk=pk)
-        sub_obj.delete()
+        sub = get_object_or_404(Subscription, pk=pk, subscriber=request.user)
+        sub.delete()
 
         return Response(status=status.HTTP_204_NO_CONTENT)

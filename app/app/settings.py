@@ -45,8 +45,11 @@ CUSTOM_USER_APPS = [
     'videos.apps.VideosConfig',
     'comments.apps.CommentsConfig',
     'subscriptions.apps.SubscriptionsConfig',
+    'reactions.apps.ReactionsConfig',
     'rest_framework',
     'drf_spectacular',
+    'channels',
+    'chat.apps.ChatConfig',
 ]
 
 INSTALLED_APPS = DJANGO_SYSTEM_APPS + CUSTOM_USER_APPS
@@ -79,8 +82,16 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'app.wsgi.application'
+# Channels를 사용하기 위한 설정
+ASGI_APPLICATION = 'app.routes.application' # 비동기 처리
+WSGI_APPLICATION = 'app.wsgi.application'   # 동기 처리
 
+# Channels 설정
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases

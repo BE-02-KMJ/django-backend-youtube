@@ -124,3 +124,9 @@
 - tests.py
 - urls.py (new)
 - views.py
+
+## - chatting 구현
+- app 생성
+- requirements 수정
+- app/settings 수정
+- 
