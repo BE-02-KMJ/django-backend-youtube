@@ -5,7 +5,7 @@ class SubSerializer(serializers.ModelSerializer):
     # Video:User - Video(FK) → User
     class Meta:
         model = Subscription
-        fields = '__all__'
+        fields = ['id', 'subscriber', 'subscribed_to']
 
     # 내가 나를 구독할 수 없다. → 확인 필요.
     def validate(self, data):   # data (type) - Dict.

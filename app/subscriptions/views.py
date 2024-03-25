@@ -9,12 +9,13 @@ from .models import Subscription
 # Create your views here.
 # SubscriptionList
 # api/v1/sub
+# [GET] : 내가 구독한 유튜버 리스트 조회
 # [POST] : 구독하기.
 class SubscriptionList(APIView):
-    # def get(self, request):
-    #     subs = Subscription.objects.filter(subscriber=request.user)
-    #     serializer = SubSerializer(subs, many=True)
-    #     return Response(serializer.data)
+    def get(self, request):
+        subs = Subscription.objects.filter(subscriber=request.user)
+        serializer = SubSerializer(subs, many=True)
+        return Response(serializer.data)
     
     def post(self, request):
         user_data = request.data

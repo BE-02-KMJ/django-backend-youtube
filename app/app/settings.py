@@ -37,7 +37,7 @@ DJANGO_SYSTEM_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core'
+    'core',
 ]
 
 CUSTOM_USER_APPS = [
@@ -46,10 +46,10 @@ CUSTOM_USER_APPS = [
     'comments.apps.CommentsConfig',
     'subscriptions.apps.SubscriptionsConfig',
     'reactions.apps.ReactionsConfig',
+    'chat.apps.ChatConfig',
     'rest_framework',
     'drf_spectacular',
     'channels',
-    'chat.apps.ChatConfig',
 ]
 
 INSTALLED_APPS = DJANGO_SYSTEM_APPS + CUSTOM_USER_APPS
@@ -86,12 +86,10 @@ TEMPLATES = [
 ASGI_APPLICATION = 'app.routes.application' # 비동기 처리
 WSGI_APPLICATION = 'app.wsgi.application'   # 동기 처리
 
-# Channels 설정
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    },
-}
+# HTTP & Web Socket 차이점
+# HTTP - 단방향, 연결 방식(해더 - http://)
+# Web Socket - 양방향(hand shake), 연결 방식(해더 - ws://), Low overhead(용량 작음), Frame(데이터 나누는 단위)
+# Streaming - TCP/UDP, 3 Ways hand shake
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -156,3 +154,11 @@ AUTH_USER_MODEL = 'users.User'  # users 폴더에 User Model 찾기.
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
+
+# Channels 설정
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
+# https://channels.readthedocs.io/en/stable/topics/channel_layers.html

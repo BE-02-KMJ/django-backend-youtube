@@ -125,8 +125,19 @@
 - urls.py (new)
 - views.py
 
+### - reactions setting
+- admin.py
+- models.py
+
 ## - chatting 구현
-- app 생성
+- app 생성 `> docker-compose run --rm app sh -c 'python manage.py startapp chat'`
 - requirements 수정
 - app/settings 수정
-- 
+- route.py 파일 생성
+
+### - 실시간 채팅 구현
+0. Channels Library 설치 - Django 연결
+1. APP 폴더에서 ASGI 연결 설정
+2. 채팅 관련
+- 모델 정의
+- REST API

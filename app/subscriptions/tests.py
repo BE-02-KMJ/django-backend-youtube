@@ -12,12 +12,15 @@ class SubscriptionTestCase(APITestCase):
         self.user2 = User.objects.create_user(email = 'test_sub', password = 'password000')
         self.client.login(email = 'test_main', password = 'password123')
 
-    # def test_sub_list_get(self):
-    #     url = reverse('sub-list')
-    #     res = self.client.get(url)
+    def test_sub_list_get(self):
+        Subscription.objects.create(subscriber=self.user1, subscribed_to=self.user2)
+
+        url = reverse('sub-list')
+        res = self.client.get(url)
     
-    #     self.assertEqual(res.status_code, status.HTTP_200_OK)
-    #     self.assertEqual(len(res.data), 1)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(res.data), 1)
+        self.assertEqual(res.data[0]['subscribed_to'], self.user2.id)
 
     def test_sub_list_post(self):
         url = reverse('sub-list')
