@@ -38,8 +38,7 @@ services:
       # - 8000:8000 #로컬에서 테스트시
     volumes:
       - static-data:/vol/static
-
-
+      
 volumes:
   postgres-data:
   static-data:
