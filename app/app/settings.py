@@ -164,3 +164,8 @@ CHANNEL_LAYERS = {
     }
 }
 # https://channels.readthedocs.io/en/stable/topics/channel_layers.html
+STATIC_URL = '/static/static'
+MEDIA_URL = '/static/media'
+
+MEDIA_ROOT = '/vol/web/media'
+STATIC_ROOT = '/vol/web/static'
