@@ -49,7 +49,7 @@
 
         // WebSocket 연결
         const chatSocket = new WebSocket(
-        "wss://" + window.location.host + "/ws/chat/" + roomId + "/"
+        "ws://" + window.location.host + "/ws/chat/" + roomId + "/"
         );
 
         chatSocket.onmessage = function (e) {
