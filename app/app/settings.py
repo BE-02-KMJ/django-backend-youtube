@@ -1,10 +1,12 @@
 from pathlib import Path
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = 'django-insecure-u#8@1rxwpvr(ci4d-zzvgas@w!=d2+eu_ihc+!$zv0!qyp(y)k'
-DEBUG = True
 
-ALLOWED_HOSTS = []
+SECRET_KEY = os.environ.get('SECRET_KEY', 'password123')
+DEBUG = bool(int(os.environ.get('DEBUG', 0)))
+
+ALLOWED_HOSTS = ['*']
 
 DJANGO_SYSTEM_APPS = [
     'django.contrib.admin',
@@ -95,7 +97,7 @@ TEMPLATES = [
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-import os
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
