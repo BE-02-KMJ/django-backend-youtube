@@ -8,6 +8,12 @@ from common.models import CommonModel
 # 2. 확장 용이 (오픈채팅방, 업무채팅방 등)
 class ChatRoom(CommonModel):
     name = models.CharField(max_length=100)
+    member = models.ManyToManyField(User, through='ChatRoomConnector')
+
+class ChatRoomConnector(CommonModel):   # 추가
+    chatroom = models.ForeignKey(ChatRoom, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.BooleanField(default=False)
 
 class ChatMessage(CommonModel):
     # 정보 통신법 3개월 채팅 보관

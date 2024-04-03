@@ -5,14 +5,17 @@ django>=5.0.1,<6.0.0 # 5.0.1 이상 6.0.0 미만
 djangorestframework>=3.14.0,<4.0.0
 
 # Psycopg2
-psycopg2-binary>=2.9.9,<3.0
+psycopg2-binary>=2.9.9,<3.0.0
 
 # DRF-Spectacular
 drf-spectacular>=0.27.1,<0.28.0
 
 # Help Django Chatting Socket Connection
-channels>=4.0.0,<4.0.1
+channels>=4.0.0,<5.0.0
 daphne>=4.1.0,<4.2.0
 
 # uWSGI
-uwsgi>=2.0.24,<2.1.0
+# uwsgi>=2.0.24,<2.1.0
+
+# 8. django-cors-headers : cors headers를 구성해줌
+django-cors-headers>=4.3.1,<5.0.0

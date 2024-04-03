@@ -15,20 +15,22 @@ DJANGO_SYSTEM_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core',
 ]
- 
+
 CUSTOM_USER_APPS = [
+    'core',
+    'corsheaders',
+    'channels',
     'daphne',
     'users.apps.UsersConfig', # Config: label 변경할 일이 많다.
     'videos.apps.VideosConfig',
     'comments.apps.CommentsConfig',
     'subscriptions.apps.SubscriptionsConfig',
     'reactions.apps.ReactionsConfig',
-    'rest_framework',
-    'drf_spectacular',
-    'channels',
     'chat.apps.ChatConfig'
+    'common.apps.CommonConfig',
+    'rest_framework',
+    'drf_spectacular',    
 ]
 
 INSTALLED_APPS = CUSTOM_USER_APPS + DJANGO_SYSTEM_APPS
@@ -155,7 +157,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User' # users 폴더의 User모델
 
 REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema'
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASS':(
+        'rest_framework.authentication.SessionAuthentication'
+    )
 }
 
 CHANNEL_LAYERS = {
@@ -169,3 +174,5 @@ MEDIA_URL = '/static/media/'
 
 MEDIA_ROOT = '/vol/web/media'
 STATIC_ROOT = '/vol/web/static'
+
+CORS_ORIGIN_ALLOW_ALL = True

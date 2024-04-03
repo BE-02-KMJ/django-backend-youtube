@@ -1,4 +1,4 @@
-version: "3.11"
+version: "3.12"
 
 services:
   app:  # django
@@ -18,7 +18,7 @@ services:
       - db
 
   db: # postgreSQL → AWS RDS
-    image: postgres:13-alpine
+    image: postgres:16
     restart: always
     volumes:
       - postgres-data:/var/lib/postgresql/data

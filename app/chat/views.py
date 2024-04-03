@@ -2,12 +2,14 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import ChatRoom, ChatMessage
-from .serializers import ChatRoomSerializer, ChatMessageSerializer
+from .models import ChatRoom, ChatRoomConnector, ChatMessage
+from .serializers import ChatRoomSerializer, ChatMessageSerializer, ConnectorSerializer
+from users.models import User
+import pdb
 
 # html 연결
 def chat_html(request):
-    return render(request, 'chat.html')
+    return render(request, 'chat/index.html')
 
 # Create your views here.
 # Chat Room
@@ -27,7 +29,8 @@ class ChatRoomList(APIView):
         serializer = ChatRoomSerializer(data=user_data)
 
         if serializer.is_valid():
-            serializer.save()
+            chatroom = serializer.save()
+            ChatRoomConnector.objects.create(user=request.user, chatroom=chatroom)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -35,6 +38,23 @@ class ChatRoomList(APIView):
 # api/v1/chat/{room_id}
     # [PUT]: 채팅방 관련 수정
     # [DELETE]: 해당 채팅방 삭제
+class ChatRoomDetail(APIView):
+    def post(self, request, room_id):
+        chatroom = get_object_or_404(ChatRoom, id=room_id)
+        ChatRoomConnector.objects.create(user=request.user, chatroom=chatroom)
+        return Response(status=status.HTTP_201_CREATED)
+        
+    def get(self, request, room_id):
+        chatroom = get_object_or_404(ChatRoom, id=room_id)
+        room_serializer = ChatRoomSerializer(chatroom)
+        members = ChatRoomConnector.objects.filter(chatroom=room_id)
+        members_serializer = ConnectorSerializer(members, many=True)
+        data = {
+            'chatroom': room_serializer.data,
+            'members': members_serializer.data
+        }
+
+        return Response(data, status=status.HTTP_200_OK)
 
 # Chat Message
 # - Chat Message List
@@ -44,7 +64,7 @@ class ChatRoomList(APIView):
 class ChatMessageList(APIView):
     def get(self, request, room_id):
         chatroom = get_object_or_404(ChatRoom, id=room_id)
-        messages = ChatMessage.objects.filter(room=chatroom)    # room : django object
+        messages = ChatMessage.objects.filter(room=chatroom).order_by('created_at')[:30]    # room : django object
         serializer = ChatMessageSerializer(messages, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
